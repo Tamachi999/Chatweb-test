@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      /* Estilos para dispositivos móviles */
+      @media (max-width: 600px) {
+        body {
+          background-color: lightblue;
+        }
+      }
+      
+      /* Estilos para dispositivos de escritorio */
+      @media (min-width: 601px) {
+        body {
+          background-color: pink;
+        }
+      }
+      
+      /* Estilos para el contenedor de entrada de texto */
+      #input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background-color: white;
+      }
+      
+      /* Estilos para el campo de texto de mensaje */
+      #message {
+        width: calc(100% - 80px);
+      }
+      
+      /* Centrar el título y la lista de mensajes */
+      h1, ul {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Título de la página -->
+    <h1>Secret Chat</h1>
+    <!-- Campo de texto para ingresar el nickname -->
+    <label for="nickname">Nombre de Usuario:</label>
+    <input type="text" id="nickname">
+    
+    <!-- Lista de mensajes -->
+    <ul id="messages"></ul>
+    
+    <!-- Contenedor de entrada de texto -->
+    <div id="input-container">
+      <!-- Campo de texto para ingresar el mensaje -->
+      <input type="text" id="message">
+      
+      <!-- Botón para enviar el mensaje -->
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+    
+    <!-- Código JavaScript -->
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+      // Conectarse al servidor de WebSockets
+      var socket = io('https://serverchat-j64p.onrender.com');
+      
+      // Escuchar mensajes del servidor
+      socket.on('chat message', function(msg) {
+        // Agregar el mensaje a la lista de mensajes
+        var messagesList = document.getElementById("messages");
+        var newMessage = document.createElement("li");
+        newMessage.textContent = msg;
+        messagesList.appendChild(newMessage);
+      });
+      
+      // Función para enviar un mensaje
+      function sendMessage() {
+        // Obtener el mensaje del campo de texto
+        var message = document.getElementById("message").value;
+        
+        // Obtener el nickname del usuario
+        var nickname = document.getElementById("nickname").value;
+        
+        // Enviar el mensaje al servidor
+        socket.emit('chat message', nickname + ": " + message);
+        
+        // Limpiar el campo de texto
+        document.getElementById("message").value = "";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "socket.io": "^4.6.1"
+  },
+  "name": "chat",
+  "version": "1.0.0",
+  "main": "serverchat.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
